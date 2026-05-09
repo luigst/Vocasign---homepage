@@ -1,112 +1,241 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Em breve</title>
+  <title>Vocasign</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     html, body {
-      width: 100%;
-      height: 100%;
+      width: 100%; height: 100%;
+      font-family: 'Inter', sans-serif;
       overflow: hidden;
     }
 
-    .bg {
-      width: 100%;
-      height: 100vh;
-      background-color: #8fb8e8;
-      position: relative;
-      overflow: hidden;
+    /* Fundo cinza com textura sutil */
+    body {
+      background: linear-gradient(160deg, #d4d4d4 0%, #bcbcbc 100%);
     }
 
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-    }
-
-    .b1 {
-      width: 900px;
-      height: 750px;
-      background: radial-gradient(ellipse, rgba(255,255,255,0.72) 0%, transparent 70%);
-      top: -300px;
-      right: -150px;
-      animation: m1 18s ease-in-out infinite;
-    }
-
-    .b2 {
-      width: 800px;
-      height: 680px;
-      background: radial-gradient(ellipse, rgba(255,255,255,0.60) 0%, transparent 65%);
-      bottom: -260px;
-      left: -120px;
-      animation: m2 22s ease-in-out infinite;
-    }
-
-    .b3 {
-      width: 620px;
-      height: 560px;
-      background: radial-gradient(ellipse, rgba(210,230,252,0.55) 0%, transparent 70%);
-      top: 60px;
-      left: 160px;
-      animation: m3 16s ease-in-out infinite;
-    }
-
-    .b4 {
-      width: 520px;
-      height: 460px;
-      background: radial-gradient(ellipse, rgba(255,255,255,0.45) 0%, transparent 70%);
-      bottom: 20px;
-      right: 100px;
-      animation: m4 20s ease-in-out infinite;
-    }
-
-    @keyframes m1 {
-      0%,  100% { transform: translate(0px,   0px)   scale(1);    }
-      40%        { transform: translate(-80px, 70px)  scale(1.06); }
-      70%        { transform: translate(-30px, 30px)  scale(0.97); }
-    }
-
-    @keyframes m2 {
-      0%,  100% { transform: translate(0px,    0px)   scale(1);    }
-      35%        { transform: translate(90px,  -60px) scale(1.08); }
-      65%        { transform: translate(40px,  -20px) scale(0.95); }
-    }
-
-    @keyframes m3 {
-      0%,  100% { transform: translate(0px,  0px);  }
-      50%        { transform: translate(60px, 50px); }
-    }
-
-    @keyframes m4 {
-      0%,  100% { transform: translate(0px,   0px);  }
-      50%        { transform: translate(-70px,-50px); }
-    }
-
-    /* Grain sutil */
-    .grain {
-      position: absolute;
+    /* Grid de fundo */
+    .grid-bg {
+      position: fixed;
       inset: 0;
-      opacity: 0.18;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 180px 180px;
+      background-image:
+        linear-gradient(rgba(160,160,160,0.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(160,160,160,0.4) 1px, transparent 1px);
+      background-size: 72px 72px;
       pointer-events: none;
+      z-index: 0;
     }
+
+    /* Layout principal */
+    .page {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 220px 1fr 340px;
+      height: 100vh;
+    }
+
+    .col {
+      padding: 48px 28px;
+      border-right: 1px solid rgba(130,130,130,0.4);
+      display: flex;
+      flex-direction: column;
+    }
+    .col:last-child { border-right: none; }
+
+    /* ─── COLUNA ESQUERDA ─── */
+    .col-left {
+      padding: 48px 24px 48px 40px;
+      justify-content: flex-start;
+    }
+
+    .somos {
+      font-size: 13px;
+      font-weight: 300;
+      color: #555;
+      letter-spacing: 0.02em;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .brand {
+      font-size: 52px;
+      font-weight: 600;
+      color: #222;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    /* ─── COLUNA CENTRAL ─── */
+    .col-mid {
+      padding: 48px 36px;
+      justify-content: flex-start;
+    }
+
+    .intro-text {
+      font-size: 11.5px;
+      font-weight: 300;
+      color: #444;
+      line-height: 1.75;
+      text-align: justify;
+    }
+
+    .intro-text strong {
+      font-weight: 600;
+      color: #222;
+    }
+
+    .venn-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+    }
+
+    .venn-wrap svg {
+      width: 100%;
+      max-width: 440px;
+    }
+
+    /* ─── COLUNA DIREITA ─── */
+    .col-right {
+      padding: 48px 32px 48px 28px;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .col-right::-webkit-scrollbar { display: none; }
+
+    .service {
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(130,130,130,0.35);
+    }
+    .service:first-child { padding-top: 0; }
+    .service:last-child  { border-bottom: none; }
+
+    .service-num {
+      font-size: 9.5px;
+      font-weight: 500;
+      color: #888;
+      letter-spacing: 0.06em;
+      margin-bottom: 1px;
+    }
+
+    .service-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 1px;
+    }
+
+    .service-sub {
+      font-size: 10px;
+      font-weight: 300;
+      color: #666;
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+
+    .service-body {
+      font-size: 10.5px;
+      font-weight: 300;
+      color: #444;
+      line-height: 1.7;
+      text-align: justify;
+    }
+
+    .top-rule    { position: fixed; top: 0;    left: 0; right: 0; height: 1px; background: rgba(130,130,130,0.5); z-index: 10; }
+    .bottom-rule { position: fixed; bottom: 0; left: 0; right: 0; height: 1px; background: rgba(130,130,130,0.5); z-index: 10; }
   </style>
 </head>
 <body>
 
-  <div class="bg">
-    <div class="blob b1"></div>
-    <div class="blob b2"></div>
-    <div class="blob b3"></div>
-    <div class="blob b4"></div>
-    <div class="grain"></div>
+  <div class="grid-bg"></div>
+  <div class="top-rule"></div>
+  <div class="bottom-rule"></div>
+
+  <div class="page">
+
+    <!-- COLUNA ESQUERDA -->
+    <div class="col col-left">
+      <p class="somos">somos o</p>
+      <h1 class="brand">vocasign</h1>
+    </div>
+
+    <!-- COLUNA CENTRAL -->
+    <div class="col col-mid">
+
+      <p class="intro-text">
+        uma consultoria estratégica dedicada a <strong>analisar, decodificar</strong> e <strong>traduzir</strong> as verdadeiras potencialidades do espaço urbano. Cada terreno possui uma vocação única e, quando a arquitetura responde a essa essência, criamos <strong>projetos de alto valor</strong> e <strong>impacto</strong>. Para alcançar essa precisão, desenvolvemos um <strong>motor tecnológico próprio</strong>. Extraímos a geometria e a topologia da cidade a partir de coordenadas exatas, transformando camadas profundas de dados em modelos tridimensionais interativos. É a inteligência territorial ganhando forma e clareza. Cada terreno possui uma vocação única. Quando a arquitetura responde a essa essência, criamos projetos de alto valor e impacto.
+      </p>
+
+      <div class="venn-wrap">
+        <svg viewBox="0 0 460 340" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+
+          <!-- Círculo topo -->
+          <circle cx="230" cy="128" r="108" fill="none" stroke="#666" stroke-width="0.8"/>
+          <!-- Círculo esquerdo -->
+          <circle cx="165" cy="228" r="108" fill="none" stroke="#666" stroke-width="0.8"/>
+          <!-- Círculo direito -->
+          <circle cx="295" cy="228" r="108" fill="none" stroke="#666" stroke-width="0.8"/>
+
+          <!-- Labels externos -->
+          <text x="230" y="24"  text-anchor="middle" font-size="9.5" font-weight="600" fill="#333" letter-spacing="0.1em">INTELIGÊNCIA</text>
+          <text x="230" y="37"  text-anchor="middle" font-size="9.5" font-weight="600" fill="#333" letter-spacing="0.1em">URBANA</text>
+
+          <text x="56"  y="305" text-anchor="middle" font-size="9.5" font-weight="600" fill="#333" letter-spacing="0.1em">DESIGN</text>
+          <text x="56"  y="318" text-anchor="middle" font-size="9.5" font-weight="600" fill="#333" letter-spacing="0.1em">PARAMÉTRICO</text>
+
+          <text x="404" y="305" text-anchor="middle" font-size="9.5" font-weight="600" fill="#333" letter-spacing="0.1em">VIABILIDADE</text>
+          <text x="404" y="318" text-anchor="middle" font-size="9.5" font-weight="600" fill="#333" letter-spacing="0.1em">ESTRATÉGICA</text>
+
+          <!-- Intersecções -->
+          <text x="193" y="180" text-anchor="middle" font-size="8" fill="#666" letter-spacing="0.06em">BEST USE</text>
+          <text x="267" y="180" text-anchor="middle" font-size="8" fill="#666" letter-spacing="0.06em">OPORTUNITY</text>
+          <text x="230" y="278" text-anchor="middle" font-size="8" fill="#666" letter-spacing="0.06em">HIGHEST</text>
+
+          <!-- Centro -->
+          <text x="230" y="224" text-anchor="middle" font-size="12" font-weight="600" fill="#222" letter-spacing="0.12em">VOCAÇÃO</text>
+
+        </svg>
+      </div>
+
+    </div>
+
+    <!-- COLUNA DIREITA -->
+    <div class="col col-right">
+
+      <div class="service">
+        <p class="service-num">001 · Estudo de Análise Vocacional Orientado:</p>
+        <p class="service-title">Revelando o DNA do Terreno</p>
+        <p class="service-body">O seu terreno já possui uma vocação; o nosso papel é decodificá-la. Para ativos pré-definidos, realizamos um mergulho profundo nas camadas de dados do local. Cruzamos inteligência urbana, parâmetros arquitetônicos e dinâmicas de mercado para desenhar a estratégia de implantação mais inteligente, garantindo que o seu novo produto nasça em total sintonia com o pulso da cidade.</p>
+      </div>
+
+      <div class="service">
+        <p class="service-num">002 · Estudo de Oportunidade Vocacional:</p>
+        <p class="service-title">O Radar do Desenvolvimento</p>
+        <p class="service-body">O futuro da incorporação começa na escolha do território ideal. Atuamos de forma proativa, mapeando a malha urbana em busca de terrenos com altíssimo potencial de valorização e desenvolvimento. Transformamos a busca tradicional por áreas numa descoberta estratégica de oportunidades singulares de negócio.</p>
+      </div>
+
+      <div class="service">
+        <p class="service-num">003 · Gerenciamento de Concorrência:</p>
+        <p class="service-title">Orquestrando a Excelência</p>
+        <p class="service-body">Elevamos o padrão do seu empreendimento ao organizar e guiar concorrências privadas de projetos. Com base nos estudos desenvolvidos pelo Vocasign, alinhamos a visão estratégica com a criatividade dos melhores escritórios de arquitetura e urbanismo do mercado. É a garantia de que a inteligência de dados se materialize num design de altíssima performance.</p>
+      </div>
+
+      <div class="service">
+        <p class="service-num">Plugin Vocasign:</p>
+        <p class="service-title">A Ponte entre Dados e Design</p>
+        <p class="service-body">A nossa tecnologia leva a inteligência territorial direto para a sua prancheta digital. Aplicação exclusiva para REVIT e ARCHICAD que injeta a modelagem BIM base e as métricas essenciais do terreno diretamente no ambiente de trabalho do arquiteto. Uma transição fluida que garante precisão absoluta do estudo inicial ao projeto executivo.</p>
+      </div>
+
+    </div>
+
   </div>
 
 </body>
